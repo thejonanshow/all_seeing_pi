@@ -9,7 +9,7 @@ class AllSeeingEye
 
   def spy
     image_path = @camera.capture
-    # get phash of picture
+    phash(image_path)
     # push picture to s3
     # delete picture locally
     # tell sauron phash and url of image
