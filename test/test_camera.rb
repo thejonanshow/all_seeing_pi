@@ -1,9 +1,8 @@
 require 'test_helper'
-require 'uploader'
 
 class CameraTest < MiniTest::Unit::TestCase
   def setup
-    @camera = Camera.new
+    @camera = AllSeeingPi::Camera.new
   end
 
   def test_capture

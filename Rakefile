@@ -1,5 +1,6 @@
-require 'rake/testtask'
 require 'bundler'
+require "bundler/gem_tasks"
+require 'rake/testtask'
 require 'fileutils'
 
 Bundler.require
@@ -12,4 +13,8 @@ end
 
 task :vcr do
   FileUtils.rm_rf('test/fixtures/vcr_cassettes')
+end
+
+task :watch do
+  AllSeeingPi.watch
 end

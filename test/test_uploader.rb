@@ -1,10 +1,9 @@
 require 'test_helper'
-require 'uploader'
 
 class UploaderTest < MiniTest::Unit::TestCase
   def setup
     @fixture = 'test/fixtures/eye_of_sauron.jpg'
-    @uploader = Uploader.new
+    @uploader = AllSeeingPi::Uploader.new
   end
 
   def test_upload
