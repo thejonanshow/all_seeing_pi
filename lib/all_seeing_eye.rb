@@ -13,7 +13,7 @@ class AllSeeingEye
     image_path = @camera.capture
     image_phash = phash(image_path)
     store_image(image_path)
-    # delete picture locally
+    FileUtils.rm(image_path)
     # tell sauron phash and url of image
   end
 

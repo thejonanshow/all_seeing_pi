@@ -8,8 +8,11 @@ class AllSeeingEyeTest < MiniTest::Unit::TestCase
   end
 
   def test_spy_sends_capture_to_the_camera
+    @eye.stubs(:phash)
     @eye.stubs(:store_image)
-    Phashion::Image.stubs(:new).returns(mock(:fingerprint))
+    FileUtils.stubs(:rm)
+
+    @eye.camera.expects(:capture)
     @eye.spy
   end
 
@@ -19,16 +22,29 @@ class AllSeeingEyeTest < MiniTest::Unit::TestCase
   end
 
   def test_spy_gets_phash_of_image
-    @eye.stubs(:store_image)
-    Phashion::Image.stubs(:new)
     @eye.camera.stubs(:capture).returns('one_ring.jpg')
+    @eye.stubs(:store_image)
+    FileUtils.stubs(:rm)
+    Phashion::Image.stubs(:new)
+
     @eye.expects(:phash).with('one_ring.jpg')
     @eye.spy
   end
 
   def test_store_image
     @eye.camera.stubs(:capture).returns(@fixture)
+    FileUtils.stubs(:rm)
+
     @eye.uploader.expects(:upload).with(@fixture)
+    @eye.spy
+  end
+
+  def test_spy_deletes_the_image
+    @eye.camera.stubs(:capture).returns('one_ring.jpg')
+    @eye.stubs(:phash)
+    @eye.stubs(:store_image)
+
+    FileUtils.expects(:rm).with('one_ring.jpg')
     @eye.spy
   end
 end
