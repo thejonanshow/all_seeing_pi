@@ -3,7 +3,6 @@ PATH
   specs:
     all_seeing_pi (0.0.1)
       aws-sdk
-      phashion
 
 GEM
   remote: https://rubygems.org/
@@ -22,7 +21,6 @@ GEM
     mocha (0.12.10)
       metaclass (~> 0.0.1)
     nokogiri (1.5.11)
-    phashion (1.1.1)
     pry (0.9.12.6)
       coderay (~> 1.0)
       method_source (~> 0.8)

@@ -7,26 +7,10 @@ class PalantirTest < MiniTest::Unit::TestCase
   end
 
   def test_spy_sends_capture_to_the_camera
-    @palantir.stubs(:phash)
     @palantir.stubs(:store_image)
     FileUtils.stubs(:rm)
 
-    @palantir.camera.expects(:capture)
-    @palantir.spy
-  end
-
-  def test_phash
-    phash = @palantir.phash(@fixture)
-    assert_equal 8540390173105289264, phash
-  end
-
-  def test_spy_gets_phash_of_image
-    @palantir.camera.stubs(:capture).returns('one_ring.jpg')
-    @palantir.stubs(:store_image)
-    FileUtils.stubs(:rm)
-    Phashion::Image.stubs(:new)
-
-    @palantir.expects(:phash).with('one_ring.jpg')
+    @palantir.camera.expects(:capture).returns(@fixture)
     @palantir.spy
   end
 
@@ -39,11 +23,10 @@ class PalantirTest < MiniTest::Unit::TestCase
   end
 
   def test_spy_deletes_the_image
-    @palantir.camera.stubs(:capture).returns('one_ring.jpg')
-    @palantir.stubs(:phash)
+    @palantir.camera.stubs(:capture).returns(@fixture)
     @palantir.stubs(:store_image)
 
-    FileUtils.expects(:rm).with('one_ring.jpg')
+    FileUtils.expects(:rm).with(@fixture)
     @palantir.spy
   end
 end

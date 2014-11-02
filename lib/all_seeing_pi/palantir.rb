@@ -1,6 +1,5 @@
 require 'all_seeing_pi/camera'
 require 'all_seeing_pi/uploader'
-require 'phashion'
 
 module AllSeeingPi
   class Palantir
@@ -14,17 +13,15 @@ module AllSeeingPi
     def spy
       image_path = @camera.capture
       return unless File.exists?(image_path)
-      image_phash = phash(image_path)
 
-      puts "Captured #{image_path} with phash #{image_phash}"
+      report "Captured #{image_path}"
 
       store_image(image_path)
       FileUtils.rm(image_path)
-      # tell sauron phash and url of image
     end
 
-    def phash(image_path)
-      Phashion::Image.new(image_path).fingerprint
+    def report(msg)
+      puts msg unless ENV['ALL_SEEING_PI_ENV'] == 'test'
     end
 
     def store_image(image_path)
