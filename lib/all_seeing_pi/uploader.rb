@@ -2,7 +2,7 @@ require 'aws-sdk'
 
 module AllSeeingPi
   class Uploader
-    BUCKET = 'all_seeing_pi'
+    BUCKET_PREFIX = 'all_seeing_pi'
 
     attr_reader :s3
 
@@ -12,10 +12,25 @@ module AllSeeingPi
 
     def upload(image_path)
       buckets = s3.buckets
-      buckets.create(BUCKET) unless buckets[BUCKET].exists?
+
+      bucket_name = fetch_or_create_bucket_name(buckets)
+      buckets.create(bucket_name) unless buckets[bucket_name].exists?
 
       filename = File.basename(image_path)
-      buckets[BUCKET].objects[filename].write(:file => image_path)
+      buckets[bucket_name].objects[filename].write(:file => image_path)
+    end
+
+    def fetch_or_create_bucket_name(buckets)
+      bucket_name = buckets.map do |bucket|
+        name = bucket.name
+        name if name.match /all_seeing_pi/
+      end.compact.first
+
+      bucket_name ||= "#{BUCKET_PREFIX}_#{bucket_id}"
+    end
+
+    def bucket_id
+      Time.now.to_f.to_s.split('.').join.to_i
     end
   end
 end
