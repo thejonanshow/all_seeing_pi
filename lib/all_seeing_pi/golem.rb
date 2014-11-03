@@ -2,7 +2,7 @@ require 'all_seeing_pi/camera'
 require 'all_seeing_pi/uploader'
 
 module AllSeeingPi
-  class Palantir
+  class Golem
     attr_reader :camera, :uploader
 
     def initialize
