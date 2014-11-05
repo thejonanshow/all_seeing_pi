@@ -10,6 +10,10 @@ VCR.configure do |c|
   c.hook_into :webmock
 end
 
-AWS.config(YAML.load_file('test/aws.yml'))
+AllSeeingPi.config.load_config_from_file('test/all_seeing_pi.yml')
 
+AWS.config(
+  access_key_id: AllSeeingPi.config[:aws_key],
+  secret_access_key: AllSeeingPi.config[:aws_secret]
+)
 ENV['ALL_SEEING_PI_ENV'] = 'test'

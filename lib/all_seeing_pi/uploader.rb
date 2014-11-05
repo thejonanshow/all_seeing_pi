@@ -8,6 +8,7 @@ module AllSeeingPi
 
     def initialize
       @s3 = AWS::S3.new
+      require 'pry'; binding.pry if $debug
     end
 
     def upload(image_path)
