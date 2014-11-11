@@ -1,5 +1,6 @@
 require 'all_seeing_pi/camera'
 require 'all_seeing_pi/uploader'
+require 'phashion'
 
 module AllSeeingPi
   class Golem
@@ -17,7 +18,13 @@ module AllSeeingPi
       report "Captured #{image_path}"
 
       store_image(image_path)
+      phash = get_phash(image_path)
+
       FileUtils.rm(image_path)
+    end
+
+    def get_phash(image_path)
+      Phashion::Image.new(image_path).fingerprint
     end
 
     def report(msg)

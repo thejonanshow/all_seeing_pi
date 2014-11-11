@@ -32,4 +32,13 @@ class GolemTest < MiniTest::Unit::TestCase
     FileUtils.expects(:rm).with(@fixture)
     @golem.spy
   end
+
+  def test_spy_calculates_the_phash
+    @golem.camera.stubs(:capture).returns(@fixture)
+    FileUtils.stubs(:rm)
+
+    image = mock(:fingerprint)
+    Phashion::Image.expects(:new).with(@fixture).returns(image)
+    @golem.spy
+  end
 end
