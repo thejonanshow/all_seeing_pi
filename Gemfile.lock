@@ -3,6 +3,7 @@ PATH
   specs:
     all_seeing_pi (0.0.3)
       fog
+      httparty
       phashion
 
 GEM
@@ -22,12 +23,16 @@ GEM
       nokogiri (~> 1.5.0)
       ruby-hmac
     formatador (0.2.4)
+    httparty (0.11.0)
+      multi_json (~> 1.0)
+      multi_xml (>= 0.5.2)
     metaclass (0.0.4)
     method_source (0.8.2)
     mime-types (2.3)
     mocha (0.12.10)
       metaclass (~> 0.0.1)
     multi_json (1.10.1)
+    multi_xml (0.5.5)
     net-scp (1.1.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.6.7)

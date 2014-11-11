@@ -24,4 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
   spec.add_runtime_dependency "fog"
   spec.add_runtime_dependency "phashion"
+  spec.add_runtime_dependency "httparty"
 end

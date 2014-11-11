@@ -1,6 +1,7 @@
 require 'all_seeing_pi/camera'
 require 'all_seeing_pi/uploader'
 require 'phashion'
+require 'httparty'
 
 module AllSeeingPi
   class Golem
@@ -19,6 +20,7 @@ module AllSeeingPi
 
       store_image(image_path)
       phash = get_phash(image_path)
+      send_to_palantir(image_path, phash)
 
       FileUtils.rm(image_path)
     end
@@ -33,6 +35,10 @@ module AllSeeingPi
 
     def store_image(image_path)
       @uploader.upload(image_path)
+    end
+
+    def send_to_palantir(image_path, phash)
+      HTTParty.post(AllSeeingPi.config[:palantir_url])
     end
   end
 end
