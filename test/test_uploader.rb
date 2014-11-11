@@ -2,24 +2,22 @@ require 'test_helper'
 
 class UploaderTest < MiniTest::Unit::TestCase
   def setup
+    Fog.mock!
+    AllSeeingPi.config.load_config_from_file('test/all_seeing_pi.yml')
+
     @fixture = 'test/fixtures/eye_of_sauron.jpg'
     @filename = File.basename(@fixture)
     @uploader = AllSeeingPi::Uploader.new
-    @bucket_name = AllSeeingPi::Uploader::BUCKET_PREFIX
   end
 
   def test_upload
-    VCR.use_cassette('uploader_test_upload') do
-      @uploader.upload(@fixture)
-      assert @uploader.s3.buckets[@bucket_name].objects[@filename].exists?, "#{@fixture} was not uploaded."
-    end
+    @uploader.upload(@fixture)
+    assert @uploader.client.directories.get(@uploader.directory_name).files.head(@filename)
   end
 
-  def test_fetch_or_create_bucket_name
-    VCR.use_cassette('uploader_test_fetch_or_create_bucket_name') do
-      name = @uploader.fetch_or_create_bucket_name(@uploader.s3.buckets)
-      assert_match /#{@bucket_name}/, name
-    end
+  def test_fetch_or_create_directory_name
+    name = @uploader.fetch_or_create_directory_name(@uploader.client.directories)
+    assert_match /#{AllSeeingPi::Uploader::DIRECTORY_PREFIX}/, name
   end
 
   def test_uploader_uses_credentials_from_config

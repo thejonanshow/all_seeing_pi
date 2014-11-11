@@ -22,8 +22,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "mocha"
   spec.add_development_dependency "pry"
-  spec.add_development_dependency "vcr"
-  spec.add_development_dependency "webmock"
-  spec.add_runtime_dependency "aws-sdk"
+  spec.add_runtime_dependency "fog"
   spec.add_runtime_dependency "phashion"
 end

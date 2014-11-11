@@ -2,6 +2,9 @@ require 'test_helper'
 
 class GolemTest < MiniTest::Unit::TestCase
   def setup
+    Fog.mock!
+    AllSeeingPi.config.load_config_from_file('test/all_seeing_pi.yml')
+
     @fixture = 'test/fixtures/eye_of_sauron.jpg'
     @golem = AllSeeingPi::Golem.new
   end
