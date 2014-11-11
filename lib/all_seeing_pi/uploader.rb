@@ -2,7 +2,7 @@ require 'aws-sdk'
 
 module AllSeeingPi
   class Uploader
-    BUCKET_PREFIX = 'all_seeing_pi'
+    BUCKET_PREFIX = 'all-seeing-pi'
 
     attr_reader :s3
 
@@ -27,7 +27,7 @@ module AllSeeingPi
         name if name.match /all_seeing_pi/
       end.compact.first
 
-      bucket_name ||= "#{BUCKET_PREFIX}_#{bucket_id}"
+      bucket_name ||= "#{BUCKET_PREFIX}-#{bucket_id}"
     end
 
     def bucket_id
