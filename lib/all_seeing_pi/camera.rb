@@ -3,7 +3,8 @@ module AllSeeingPi
     attr_reader :script
 
     def initialize
-      @script = File.expand_path('../../../capture.sh', __FILE__)
+      path = '../../../capture.sh'
+      @script = AllSeeingPi.config[:capture_script] || File.expand_path(path, __FILE__)
     end
 
     def capture
