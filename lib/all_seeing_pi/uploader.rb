@@ -27,7 +27,7 @@ module AllSeeingPi
     def fetch_or_create_directory_name(directories)
       directory_name = directories.map do |directory|
         key = directory.key
-        key if key.match /all_seeing_pi/
+        key if key.match /#{DIRECTORY_PREFIX}/
       end.compact.first
 
       AllSeeingPi.config[:directory_name] ||= "#{DIRECTORY_PREFIX}-#{directory_id}"
