@@ -4,7 +4,7 @@ module AllSeeingPi
   class Uploader
     DIRECTORY_PREFIX = 'all-seeing-pi'
 
-    attr_reader :client, :directory_name
+    attr_reader :client
 
     def initialize
       @client = Fog::Storage.new(
@@ -30,7 +30,7 @@ module AllSeeingPi
         key if key.match /all_seeing_pi/
       end.compact.first
 
-      @directory_name ||= "#{DIRECTORY_PREFIX}-#{directory_id}"
+      AllSeeingPi.config[:directory_name] ||= "#{DIRECTORY_PREFIX}-#{directory_id}"
     end
 
     def directory_id

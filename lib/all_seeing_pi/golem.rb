@@ -38,7 +38,16 @@ module AllSeeingPi
     end
 
     def send_to_palantir(image_path, phash)
-      HTTParty.post(AllSeeingPi.config[:palantir_url])
+      data = {
+        :name => File.basename(image_path),
+        :phash => phash,
+        :directory_name => AllSeeingPi.config[:directory_name]
+      }.to_json
+
+      HTTParty.post(
+        AllSeeingPi.config[:palantir_url],
+        data
+      )
     end
   end
 end

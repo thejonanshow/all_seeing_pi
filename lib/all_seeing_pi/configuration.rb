@@ -1,6 +1,6 @@
 module AllSeeingPi
   class Configuration
-    attr_accessor :aws_key, :aws_secret, :palantir_url
+    attr_accessor :aws_key, :aws_secret, :palantir_url, :directory_name
 
     def initialize
       reset!

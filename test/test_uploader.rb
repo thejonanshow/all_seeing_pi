@@ -12,7 +12,7 @@ class UploaderTest < MiniTest::Unit::TestCase
 
   def test_upload
     @uploader.upload(@fixture)
-    assert @uploader.client.directories.get(@uploader.directory_name).files.head(@filename)
+    assert @uploader.client.directories.get(AllSeeingPi.config[:directory_name]).files.head(@filename)
   end
 
   def test_fetch_or_create_directory_name

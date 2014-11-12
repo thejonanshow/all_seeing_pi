@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'json'
 
 class GolemTest < MiniTest::Unit::TestCase
   def setup
@@ -6,8 +7,15 @@ class GolemTest < MiniTest::Unit::TestCase
     AllSeeingPi.config.load_config_from_file('test/all_seeing_pi.yml')
 
     @fixture = 'test/fixtures/eye_of_sauron.jpg'
+    @filename = File.basename(@fixture)
     @golem = AllSeeingPi::Golem.new
     @phash = @golem.get_phash(@fixture)
+
+    @image_json = {
+      :name => @filename,
+      :phash => @phash,
+      :directory_name => AllSeeingPi.config[:directory_name]
+    }.to_json
   end
 
   def test_spy_sends_capture_to_the_camera
@@ -58,7 +66,17 @@ class GolemTest < MiniTest::Unit::TestCase
 
   def test_send_to_palantir_uses_uri_from_config
     AllSeeingPi.config[:palantir_url] = 'http://totallyrealurl.com'
-    HTTParty.expects(:post).with('http://totallyrealurl.com')
+    HTTParty.expects(:post).with('http://totallyrealurl.com', @image_json)
+    @golem.send_to_palantir(@fixture, @phash)
+  end
+
+  def test_send_to_palantir_posts_the_image_data
+    AllSeeingPi.config[:palantir_url] = 'http://totallyrealurl.com'
+
+    HTTParty.expects(:post).with(
+      'http://totallyrealurl.com',
+      @image_json
+    )
     @golem.send_to_palantir(@fixture, @phash)
   end
 end
