@@ -15,6 +15,12 @@ class UploaderTest < MiniTest::Unit::TestCase
     assert @uploader.client.directories.get(AllSeeingPi.config[:directory_name]).files.head(@filename)
   end
 
+  def test_upload_returns_public_url
+    regex = /#{AllSeeingPi::Uploader::DIRECTORY_PREFIX}.*\/#{@filename}/
+    public_url = @uploader.upload(@fixture)
+    assert public_url.match(regex), "Expected #{regex.inspect} to match #{public_url}"
+  end
+
   def test_fetch_or_create_directory_name
     name = @uploader.fetch_or_create_directory_name(@uploader.client.directories)
     assert_match /#{AllSeeingPi::Uploader::DIRECTORY_PREFIX}/, name

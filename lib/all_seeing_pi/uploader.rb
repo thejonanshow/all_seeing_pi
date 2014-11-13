@@ -21,7 +21,8 @@ module AllSeeingPi
       directory = directories.get(directory_name) || directories.create(key: directory_name)
 
       filename = File.basename(image_path)
-      directory.files.create(key: filename, body: File.open(image_path))
+      image = directory.files.create(key: filename, body: File.open(image_path), public: true)
+      image.public_url
     end
 
     def fetch_or_create_directory_name(directories)

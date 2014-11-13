@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    all_seeing_pi (0.0.3)
+    all_seeing_pi (0.0.4)
       fog
       httparty
       phashion

@@ -10,12 +10,17 @@ class GolemTest < MiniTest::Unit::TestCase
     @filename = File.basename(@fixture)
     @golem = AllSeeingPi::Golem.new
     @phash = @golem.get_phash(@fixture)
+    @palantir_url = 'http://all-seeing-pi.com/api/images'
+    @public_url = 'http://public-url.com'
 
-    @image_json = {
+    @image_data = {
       :name => @filename,
       :phash => @phash,
+      :url => @public_url,
       :directory_name => AllSeeingPi.config[:directory_name]
-    }.to_json
+    }
+
+    @headers = { 'Authorization' => AllSeeingPi.config[:palantir_api_key] }
   end
 
   def test_spy_sends_capture_to_the_camera
@@ -57,26 +62,21 @@ class GolemTest < MiniTest::Unit::TestCase
 
   def test_spy_sends_palantir_the_image_details
     @golem.camera.stubs(:capture).returns(@fixture)
+    @golem.stubs(:store_image).returns(@public_url)
     FileUtils.stubs(:rm)
     HTTParty.stubs(:post)
 
-    @golem.expects(:send_to_palantir).with(@fixture, @phash)
+    @golem.expects(:send_to_palantir).with(@fixture, @phash, @public_url)
     @golem.spy
   end
 
   def test_send_to_palantir_uses_uri_from_config
-    AllSeeingPi.config[:palantir_url] = 'http://totallyrealurl.com'
-    HTTParty.expects(:post).with('http://totallyrealurl.com', @image_json)
-    @golem.send_to_palantir(@fixture, @phash)
+    HTTParty.expects(:post).with( @palantir_url, { :query => { :image => @image_data }, :headers => @headers })
+    @golem.send_to_palantir(@fixture, @phash, @public_url)
   end
 
   def test_send_to_palantir_posts_the_image_data
-    AllSeeingPi.config[:palantir_url] = 'http://totallyrealurl.com'
-
-    HTTParty.expects(:post).with(
-      'http://totallyrealurl.com',
-      @image_json
-    )
-    @golem.send_to_palantir(@fixture, @phash)
+    HTTParty.expects(:post).with( @palantir_url, { :query => { :image => @image_data }, :headers => @headers })
+    @golem.send_to_palantir(@fixture, @phash, @public_url)
   end
 end

@@ -25,4 +25,8 @@ module AllSeeingPi
       golem.spy
     end
   end
+
+  def self.report(msg)
+    puts msg unless ENV['ALL_SEEING_PI_ENV'] == 'test'
+  end
 end
