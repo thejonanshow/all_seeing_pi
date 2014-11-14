@@ -19,8 +19,7 @@ class GollumTest < MiniTest::Unit::TestCase
       :url => @public_url,
       :directory_name => AllSeeingPi.config[:directory_name]
     }
-
-    @headers = { 'Authorization' => AllSeeingPi.config[:palantir_api_key] }
+    @token = AllSeeingPi.config[:palantir_access_token]
   end
 
   def test_spy_sends_capture_to_the_camera
@@ -71,12 +70,12 @@ class GollumTest < MiniTest::Unit::TestCase
   end
 
   def test_send_to_palantir_uses_uri_from_config
-    HTTParty.expects(:post).with( @palantir_url, { :query => { :image => @image_data }, :headers => @headers })
+    HTTParty.expects(:post).with( @palantir_url, { :query => { :image => @image_data, :access_token => @token } } )
     @golem.send_to_palantir(@fixture, @phash, @public_url)
   end
 
   def test_send_to_palantir_posts_the_image_data
-    HTTParty.expects(:post).with( @palantir_url, { :query => { :image => @image_data }, :headers => @headers })
+    HTTParty.expects(:post).with( @palantir_url, { :query => { :image => @image_data, :access_token => @token } } )
     @golem.send_to_palantir(@fixture, @phash, @public_url)
   end
 end

@@ -43,8 +43,7 @@ module AllSeeingPi
 
       HTTParty.post(
         "#{AllSeeingPi.config[:palantir_url]}/api/images",
-        :query => { :image => data },
-        :headers => { 'Authorization' => AllSeeingPi.config[:palantir_api_key] }
+        :query => { :image => data, :access_token => AllSeeingPi.config[:palantir_access_token]}
       )
 
       AllSeeingPi.report "Sent to Palantir - name: #{data[:name]}, phash: #{data[:phash]}, directory: #{data[:directory_name]}"
