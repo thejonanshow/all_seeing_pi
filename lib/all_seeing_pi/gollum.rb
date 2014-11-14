@@ -4,7 +4,7 @@ require 'phashion'
 require 'httparty'
 
 module AllSeeingPi
-  class Golem
+  class Gollum
     attr_reader :camera, :uploader
 
     def initialize

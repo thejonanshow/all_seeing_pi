@@ -1,14 +1,14 @@
 require 'test_helper'
 require 'json'
 
-class GolemTest < MiniTest::Unit::TestCase
+class GollumTest < MiniTest::Unit::TestCase
   def setup
     Fog.mock!
     AllSeeingPi.config.load_config_from_file('test/all_seeing_pi.yml')
 
     @fixture = 'test/fixtures/eye_of_sauron.jpg'
     @filename = File.basename(@fixture)
-    @golem = AllSeeingPi::Golem.new
+    @golem = AllSeeingPi::Gollum.new
     @phash = @golem.get_phash(@fixture)
     @palantir_url = 'http://all-seeing-pi.com/api/images'
     @public_url = 'http://public-url.com'

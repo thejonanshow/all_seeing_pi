@@ -1,5 +1,5 @@
 require "all_seeing_pi/version"
-require "all_seeing_pi/golem"
+require "all_seeing_pi/gollum"
 require "all_seeing_pi/camera"
 require "all_seeing_pi/uploader"
 require "all_seeing_pi/configuration"
@@ -19,7 +19,7 @@ module AllSeeingPi
   end
 
   def self.watch
-    golem = AllSeeingPi::Golem.new
+    golem = AllSeeingPi::Gollum.new
 
     loop do
       golem.spy
