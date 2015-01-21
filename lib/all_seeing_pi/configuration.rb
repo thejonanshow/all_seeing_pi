@@ -23,13 +23,11 @@ module AllSeeingPi
 
     def load_config_from_file(filename = 'all_seeing_pi.yml')
       paths = [
-        "#{filename}",
+        filename,
         "config/#{filename}"
       ]
 
-      config = {}
-
-      paths.each do |filepath|
+      paths.inject(config = {}) do |config, filepath|
         config = YAML.load_file(filepath) if File.exists?(filepath)
       end
 
